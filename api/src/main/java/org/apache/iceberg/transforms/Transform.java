@@ -167,6 +167,9 @@ public interface Transform<S, T> extends Serializable {
 
   default String toHumanString(Type type, T value) {
     if (value == null) {
+      if (System.getProperty("experiment.iceberg.hivestylenull", "true").equals("true")) {
+        return "__HIVE_DEFAULT_PARTITION__";
+      }
       return "null";
     }
 
