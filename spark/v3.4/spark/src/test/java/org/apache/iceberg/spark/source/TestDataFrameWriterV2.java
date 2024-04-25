@@ -178,6 +178,17 @@ public class TestDataFrameWriterV2 extends SparkTestBaseWithCatalog {
   }
 
   @Test
+  public void testByte() {
+    SparkSession sparkSession = spark.cloneSession();
+    Dataset<Row> dataset =
+        sparkSession.sql("select inline(array(from_json('{\"b\": 3}', 'struct<b:byte>')))");
+
+    dataset.show();
+
+    dataset.writeTo(tableName).createOrReplace();
+  }
+
+  @Test
   public void testWriteWithCaseSensitiveOption() throws NoSuchTableException, ParseException {
     SparkSession sparkSession = spark.cloneSession();
     sparkSession
